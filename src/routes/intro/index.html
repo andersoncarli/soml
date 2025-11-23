@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual Code Editor</title>
+  <!-- Load CodeMirror from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+  <style>
+    dual-code-editor {
+      display: block;
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+
+  <dual-code-editor></dual-code-editor>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+
+  <script>
+    class DualCodeEditor extends HTMLElement {
+      constructor(file1, file2) {
+        super();
+        this.attachShadow({ mode: 'open' });
+      }
+
+      connectedCallback() {
+        this.render();
+        this.initCodeMirror();
+      }
+
+      render() {
+        this.shadowRoot.innerHTML = `
+                    <style>
+                        .container {
+                            display: flex;
+                            height: 100%;
+                        }
+                        .panel {
+                            flex: 1;
+                            padding: 10px;
+                        }
+                        .CodeMirror {
+                            height: 100%;
+                        }
+                    </style>
+                    <div class="container">
+                        <div class="panel" id="panel1"></div>
+                        <div class="panel" id="panel2"></div>
+                    </div>
+                `;
+      }
+
+      initCodeMirror() {
+        this.editor1 = CodeMirror(this.shadowRoot.getElementById('panel1'), {
+          mode: 'javascript',
+          lineNumbers: true,
+          theme: 'default'
+        });
+        this.editor2 = CodeMirror(this.shadowRoot.getElementById('panel2'), {
+          mode: 'xml',
+          lineNumbers: true,
+          theme: 'default'
+        });
+      }
+
+      loadSource(url, panelIndex) {
+        fetch(url)
+          .then(response => response.text())
+          .then(source => {
+            if (panelIndex === 1) {
+              this.editor1.setValue(source);
+            } else if (panelIndex === 2) {
+              this.editor2.setValue(source);
+            }
+          })
+          .catch(error => console.error('Failed to load source file:', error));
+      }
+    }
+
+    customElements.define('dual-code-editor', DualCodeEditor);
+
+    // Example of how to use the loadSource method:
+    const editor = document.querySelector('dual-code-editor');
+    editor.loadSource('./index.html', 1);
+    editor.loadSource('./index.soml.js', 2);
+  </script>
+</body>
+
+</html>

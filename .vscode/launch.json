@@ -1,0 +1,91 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Current",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "nodemon", // "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+      "program": "${file}",
+      "env": {
+        "TESTS": "1",
+        "DEBUG": "G include",
+        "NODE_NO_WARNINGS": "1"
+      },
+      // "args": [".", ".git",".vscode","node_modules","bin"],
+      "runtimeArgs": [
+        "--use-strict",
+        "-i", "*.json",
+        "-I"
+      ],
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**/*",
+        "${workspaceFolder}/node_modules/**",
+        "${workspaceFolder}/utils/**/*.js",
+        "${workspaceFolder}/libs/**/*.js",
+      ],
+    },
+    {
+      "name": "Server",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "nodemon", // "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+      "program": "${workspaceFolder}/src/server.js",
+      "env": { "DEBUG": "G", },
+      // "args": ["timer","start","teste","0101"],
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/libs/**/*.js",
+        // "${workspaceFolder}/utils/**/*.js",
+      ],
+      "runtimeArgs": [
+        "--use-strict",
+        // "--expose-gc",
+        "--trace-uncaught",
+        "--trace-warnings",
+        "--test",
+        "-i", "*.json",
+        "-I",
+        "-L",
+      ],
+      "restart": false,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    },
+    {
+      "name": "Lib",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "nodemon", // "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+      // "program": "${workspaceFolder}/utils/core2.js",
+      "program": "${workspaceFolder}/hello/server.js",
+      "env": { "DEBUG": "G", },
+      // "args": ["timer","start","teste","0101"],
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/libs/**/*.js",
+        // "${workspaceFolder}/utils/**/*.js",
+      ],
+      "runtimeArgs": [
+        "--use-strict",
+        // "--expose-gc",
+        "--trace-uncaught",
+        "--trace-warnings",
+        "--test",
+        "-i", "*.json",
+        "-I",
+        "-L",
+      ],
+      "restart": false,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    },
+
+  ]
+}
