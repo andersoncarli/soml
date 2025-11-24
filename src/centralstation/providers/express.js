@@ -18,6 +18,10 @@ class ExpressProvider extends WebServer {
   }
 
   _registerMiddleware(middleware) {
+    if (typeof middleware !== 'function') {
+      console.error('Invalid middleware:', middleware, 'type:', typeof middleware);
+      throw new TypeError('Middleware must be a function');
+    }
     this.app.use(middleware);
   }
 

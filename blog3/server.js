@@ -6,6 +6,7 @@ const path = require('path');
 
 // Import page components
 const HomePage = require('./pages/HomePage-ultra.soml');
+const PostDetail = require('./pages/PostDetail.soml');
 
 // Import data store
 const store = require('./store');
@@ -24,7 +25,7 @@ cs.route('/centralstation.js', 'GET', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/centralstation/client.js'));
 });
 
-// Serve SOML client helpers (get, set, on)
+// Serve SOML client helpers (get, set, on, soml, create)
 cs.route('/soml-client.js', 'GET', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/soml-client.js'));
 });
@@ -39,12 +40,24 @@ cs.route('/blog2', 'GET', (req, res) => {
   res.send(html);
 });
 
-// TODO: Implement PostDetailPage with inline pattern
-// cs.route('/blog2/posts/:id', 'GET', (req, res) => {
-//   const post = store.getPost(req.params.id);
-//   if (!post) return res.status(404).send('Post not found');
-//   // ...
-// });
+// Post detail page
+cs.route('/blog2/posts/:id', 'GET', (req, res) => {
+  const post = store.getPost(req.params.id);
+  if (!post) return res.status(404).send('Post not found');
+  
+  const comments = store.getComments(req.params.id);
+  
+  // Increment view count
+  store.incrementViewCount(req.params.id);
+  
+  const html = soml.toHtml(PostDetail({
+    post,
+    comments,
+    onlineCount: store.getOnlineCount()
+  }));
+  
+  res.send(html);
+});
 
 // WebSocket Events
 cs.on('connection', (client) => {

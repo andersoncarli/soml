@@ -1,0 +1,39 @@
+/* Blog2 Application Styles */
+
+body { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+  min-height: 100vh; 
+}
+
+.card { 
+  cursor: pointer; 
+  transition: all 0.3s; 
+}
+
+.card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+}
+
+@keyframes fadeIn { 
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  } 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+}
+
+.fade-in { 
+  animation: fadeIn 0.3s; 
+}
+
+.connection-status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+

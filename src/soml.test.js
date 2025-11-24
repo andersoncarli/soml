@@ -34,15 +34,76 @@ test('parseTag', () => {
   check(parseTag('div-42.my-class.another-class'), '{div:{id:42,class:["my-class","another-class"]}}')
 })
 
+test('soml-concise-syntax', () => {
+  const { soml } = require('./soml.js');
+  
+  // Test simple tag expression with string content
+  const simple = soml({ 'container-main': { h1: 'Title', p: 'Content' } });
+  check(simple, {
+    div: {
+      id: 'container',
+      class: ['main'],
+      children: [
+        { h1: { text: 'Title' } },
+        { p: { text: 'Content' } }
+      ]
+    }
+  });
+  
+  // Test with script function
+  const withScript = soml({
+    body: {
+      'container-main': { h1: 'Title', p: 'Content' },
+      script() {}
+    }
+  });
+  
+  check(withScript, {
+    body: {
+      children: [
+        {
+          div: {
+            id: 'container',
+            class: ['main'],
+            children: [
+              { h1: { text: 'Title' } },
+              { p: { text: 'Content' } }
+            ]
+          }
+        },
+        { script: {} }
+      ]
+    }
+  });
+  
+  // Test HTML generation
+  const html = soml.toHtml(simple);
+  check(html, '<div id="container" class="main"><h1>Title</h1><p>Content</p></div>');
+  
+  // Test the full example from user's request
+  const fullExample = soml({
+    body: { 
+      'container-main': {
+        h1: 'Title',
+        p: 'Content'
+      },
+      script() {}
+    }
+  });
+  
+  const fullHtml = soml.toHtml(fullExample);
+  console.log('Full HTML:', fullHtml);
+  check(fullHtml, '<body><div id="container" class="main"><h1>Title</h1><p>Content</p></div><script></script></body>');
+})
+
 // const { soml } = require();
 /// Example usage
 test('soml-tag', () => {
   const { soml } = require('./soml.js');
   const result = soml('div-1.card.primary', { h1: 'Hello World' }, [1, 2, 3], () => 'p.text-muted');
-  console.dir(result);
   check(result, [
     { div: { id: 1, class: ['card', 'primary'] } },
-    { h1: 'Hello World' },
+    { h1: { text: 'Hello World' } },
     [{ value: 1 }, { value: 2 }, { value: 3 }],
     { p: { id: 0, class: ['text-muted'] } }
   ])
