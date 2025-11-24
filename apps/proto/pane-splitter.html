@@ -1,0 +1,53 @@
+<body style="display:flex;">
+  <div style="width:20%"></div>
+  <pane-splitter></pane-splitter>
+  <div></div>
+  <pane-splitter></pane-splitter>
+  <div style="width:20%"></div>
+</body>
+
+<template id='pane-splitter'>
+  <style>
+    :host {
+      width: 3px;
+      cursor: col-resize;
+      background-color: rgba(0,0,0,0.2);
+    }
+
+    div {
+      height: 100%;
+      width: 2px;
+      background-color: silver;
+    }
+  </style>
+  <div></div>
+</template>
+
+<script>
+  function Splitter() {
+
+    this.onMouseDown = (e) => {
+      this.startX = e.offsetX
+      window.addEventListener('mouseup', this.stop)
+      window.addEventListener('mousemove', this._move)
+    }
+
+    this.move = (e) => {
+      var p = this.previousElementSibling
+      p.style.width = `${e.pageX + this.startX - p.offsetLeft}px`
+
+      var n = this.nextElementSibling
+      n.style.width = `${n.offsetLeft + n.offsetWidth - e.pageX - this.offsetWidth + this.startX}px`
+    }
+    this._move = this.move.bind(this)
+
+    this.stop = (e) => {
+      window.removeEventListener('mousemove', this._move)
+      window.removeEventListener('mouseup', this.stop)
+    }
+
+    this.nextElementSibling.style.flex = 'auto'
+    this.setAttribute('draggable', false);
+  }
+  utils.define('pane-splitter', Splitter, { shadowDom: 'closed' })
+</script>

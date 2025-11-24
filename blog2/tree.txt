@@ -1,0 +1,40 @@
+/src
+├── /models
+│   ├── User: {schema, views{detail, create, update, list, edit, delete}, routes, controllers, services, seeds }
+│   ├── Post:{}
+│   ├── Comment:{}
+│   ├── Thread:{}
+│   ├── Dashboard:{}
+│   ├── Category:{}
+│   ├── Image:{}
+│   ├── Widget:{}
+│   ├── Document:{}
+│   ├── Event:{}
+│   ├── Notification:{}
+│   ├── Role:{}
+│   ├── ActivityLog:{}
+│
+├── /utils
+│   ├── authUtils.js
+│   ├── validationUtils.js
+│   ├── encryptionUtils.js
+│
+├── /config
+│   ├── dbConfig.js
+│   ├── serverConfig.js
+│   ├── authConfig.js
+│
+├── /middleware
+│   ├── authMiddleware.js
+│   ├── errorMiddleware.js
+│
+├── /public
+│   ├── /images
+│   ├── /styles
+│   ├── /scripts
+│
+├── server.js
+├── .env
+├── vercel.json
+├── package.json
+└── README.md

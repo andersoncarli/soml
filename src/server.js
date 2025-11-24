@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api', require('./routes/api'));
-app.use('/', require('./routes/cient.js'));
+app.use('/', require('./routes/client.js'));
 
 // Start the server
 app.listen(3000, () => {

@@ -1,0 +1,48 @@
+<!-- https://blog.teamtreehouse.com/create-your-own-to-do-app-with-html5-and-indexeddb -->
+<html>
+
+<title>Todo List App</title>
+
+<body>
+    <form id="form" method="POST" action="#">
+        <input id="todo" type="text" name="todo" placeholder="Enter a todo item..." required>
+    </form>
+
+    <ul id="list">
+        <li><input type="checkbox" onclick="remove({ timestamp },this)">{text}</li>
+    </ul>
+</body>
+
+<link rel="stylesheet" href="todo.css">
+
+<script>
+    console.log(Object.keys(ut))
+    const { IndexedDB, confirm } = utils
+
+    const db = IndexedDB('todos')
+        , store = db.open('todo', render)
+        , list = get('#list')
+        , template = list.innerHTML
+
+    function render() { store.fetch((data) => list.innerHTML = data.render(template)) }
+
+    get('#form').onsubmit = () => {
+        var todo = {
+            timestamp: new Date().getTime(),
+            text: get('#todo').value
+        };
+
+        store.create(todo, render);
+        set('#todo.value', '');
+        return false;
+    };
+
+    function remove(id, checkbox) {
+        confirm('Delete to do? ' + id, (doit) => {
+            if (doit) store.remove(id, render)
+            checkbox.checked = doit
+        })
+    }
+</script>
+
+</html>

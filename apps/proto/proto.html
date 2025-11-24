@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Proto Player</title>
+    <script src="./dom.js"></script>
+    <link rel="stylesheet" href="./proto.css">
+    <!-- <link rel="import" href="../src/components/pane-splitter.html"> -->
+</head>
+
+
+<body>
+    <header>
+        <div class="title">header</div>
+        <!-- <div class="menu">☰</div> -->
+        <svg class='menu' viewBox="0 0 30 23">
+            <rect y=00 width=30 height=3 />
+            <rect y=10 width=30 height=3 />
+            <rect y=20 width=30 height=3 />
+        </svg>
+    </header>
+
+    <main style="overflow: hidden;">
+        <div id="nav">nav</div>
+        <!-- <pane-splitter></pane-splitter> -->
+        <div style="flex:1">article</div>
+        <div>aside</div>
+    </main>
+
+    <footer>footer</footer>
+</body>
+
+<script>
+
+    let menu = get('.menu')
+    menu.on('click', e => {
+        get("#nav").classList.toggle('navUp')
+    });
+
+    window.addEventListener('resize', e => {
+        if (window.innerWidth > 600)
+            get("#nav").classList.remove('navUp');
+    });
+
+    on('li.click', e => {
+        url = e.target.getAttribute('ref')
+        // load(url, get('article'))
+        set('iframe.src', url)
+        get("#nav").classList.remove('navUp');
+    })
+
+</script>
+
+</html>
